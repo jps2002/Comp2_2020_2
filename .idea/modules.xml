@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Armarios/Armarios.iml" filepath="$PROJECT_DIR$/Armarios/Armarios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BrincandoComStrings/BrincandoComStrings.iml" filepath="$PROJECT_DIR$/BrincandoComStrings/BrincandoComStrings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Comp2_2020_2.iml" filepath="$PROJECT_DIR$/.idea/Comp2_2020_2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fracao/Fracao.iml" filepath="$PROJECT_DIR$/Fracao/Fracao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloWorld/HelloWorld.iml" filepath="$PROJECT_DIR$/HelloWorld/HelloWorld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LojaVirtual/LojaVirtual.iml" filepath="$PROJECT_DIR$/LojaVirtual/LojaVirtual.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Primos/Primos.iml" filepath="$PROJECT_DIR$/Primos/Primos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ReinoAnimal/ReinoAnimal.iml" filepath="$PROJECT_DIR$/ReinoAnimal/ReinoAnimal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Siguinha/Siguinha.iml" filepath="$PROJECT_DIR$/Siguinha/Siguinha.iml" />
+    </modules>
+  </component>
+</project>

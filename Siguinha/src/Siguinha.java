@@ -10,6 +10,36 @@ public class Siguinha {
 
     String instituicaoDeEnsino;
 
+    // questão 1
+    public static HashMap<Long, Aluno> alunos = new HashMap<Long, Aluno>();
+
+    // questão 2
+    public static void cadastrarAluno(long dre, String nome)
+    {
+        Aluno novoAluno = new Aluno(dre, nome);
+        alunos.put(dre, novoAluno);
+    }
+
+    public static void cadastrarAluno(Aluno aSerCadastrado)
+    {
+        long dre = aSerCadastrado.getDre();
+        alunos.put(dre, aSerCadastrado);
+    }
+
+    // questão 3
+    public static Aluno obterAluno(long dre)
+    {
+        Aluno encontrado = null;
+        for(Long numero : alunos.keySet())
+        {
+            if(numero == dre)
+            {
+                encontrado = alunos.get(numero);
+            }
+        }
+        return encontrado;
+    }
+
     public static int obterAnoCorrente() {
         return Calendar.getInstance().get(Calendar.YEAR);
     }
@@ -40,32 +70,32 @@ public class Siguinha {
     }
 
     // apenas para escrever testes rápidos, por ora
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException {
 
-        HashMap<Integer, String> numerosPorExtenso = new HashMap<>();
-        numerosPorExtenso.put(1, "um");
-        numerosPorExtenso.put(2, "dois");
-        numerosPorExtenso.put(3, "três");
-        numerosPorExtenso.put(4, "quatro");
+        // teste rápido de turma
 
-        System.out.println(numerosPorExtenso.get(2));
-        System.out.println(numerosPorExtenso.get(600));
+        Aluno a1 = new Aluno (1234, "joao");
+        Aluno a2 = new Aluno (12345, "joaozinho");
+        Aluno a3 = new Aluno (123456, "joaozao");
+        Aluno a4 = new Aluno (1234567, "joaozaoao");
 
-        // formar de iterar pelo mapa
-        for (Integer chave : numerosPorExtenso.keySet()) {
-            System.out.println(chave);
-        }
+        /*cadastrarAluno(1234, "joao");
+        cadastrarAluno(123456, "joaozinho");
+        cadastrarAluno(1234567, "joaozao");*/
 
-        // formar de iterar pelo mapa
-        for (String valor : numerosPorExtenso.values()) {
-            System.out.println(valor);
-        }
+        cadastrarAluno(a1);
+        cadastrarAluno(a2);
+        cadastrarAluno(a3);
 
-        for (Map.Entry<Integer, String> parChaveValor : numerosPorExtenso.entrySet()) {
-            Integer chave = parChaveValor.getKey();
-            String valor = parChaveValor.getValue();
-            System.out.println(chave + " ---> " + valor);
-        }
+        Turma turminha = new Turma();
+
+        turminha.inscreverAluno(a1);
+        turminha.inscreverAluno(a2);
+        turminha.inscreverAluno(a3);
+
+        turminha.atribuirMediaFinal(123456, 10);
+
+        System.out.println(turminha.listarAlunos());
 
     }
 }

@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Aluno {
+public class Aluno extends Pessoa {
 
     // --------------------------------
     // atributos
     // --------------------------------
 
-    private String nome;
+    // private String nome;
 
     private final long dre;
 
@@ -25,7 +25,8 @@ public class Aluno {
 
     private ArrayList<ItemHistorico> historico;
 
-    private int anoNascimento;
+    private int anoNascimento = super.anoDeNascimento;
+    String nome = super.nome;
 
     public final static int TAMANHO_MAXIMO_DO_NOME = 30;
 
@@ -44,7 +45,6 @@ public class Aluno {
 
         this.dre = dre;
         this.nome = nome;
-
         this.historico = new ArrayList<>();  // com <>, o compilador substitui por <ItemHistorico>
 
         this.periodoIngresso = Siguinha.obterPeriodoCorrente();
@@ -60,7 +60,7 @@ public class Aluno {
 //        super();
 //    }
 
-    public String getNome() {
+    /*public String getNome() {
         return nome;
     }
 
@@ -72,7 +72,7 @@ public class Aluno {
 
         this.nome = nome;
     }
-
+*/
     public float getCra() {
         return cra;
     }
@@ -85,13 +85,13 @@ public class Aluno {
         return dre;
     }
 
-    public int getAnoNascimento() {
+    /*public int getAnoNascimento() {
         return anoNascimento;
-    }
+    }*/
 
-    public int getIdade() {
+    /*public int getIdade() {
         return Siguinha.obterAnoCorrente() - anoNascimento;
-    }
+    }*/
 
     // ATENÇÃO: NÃO QUEREMOS UM SETTER PÚBLICO PARA O CRA!!!!!!
 //
