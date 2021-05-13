@@ -10,34 +10,13 @@ public class Siguinha {
 
     String instituicaoDeEnsino;
 
-    // questão 1
-    public static HashMap<Long, Aluno> alunos = new HashMap<Long, Aluno>();
+    Map<Long, Aluno> alunoByDre;
 
-    // questão 2
-    public static void cadastrarAluno(long dre, String nome)
-    {
-        Aluno novoAluno = new Aluno(dre, nome);
-        alunos.put(dre, novoAluno);
-    }
 
-    public static void cadastrarAluno(Aluno aSerCadastrado)
-    {
-        long dre = aSerCadastrado.getDre();
-        alunos.put(dre, aSerCadastrado);
-    }
 
-    // questão 3
-    public static Aluno obterAluno(long dre)
-    {
-        Aluno encontrado = null;
-        for(Long numero : alunos.keySet())
-        {
-            if(numero == dre)
-            {
-                encontrado = alunos.get(numero);
-            }
-        }
-        return encontrado;
+    public Siguinha(String instituicaoDeEnsino) {
+        this.instituicaoDeEnsino = instituicaoDeEnsino;
+        this.alunoByDre = new HashMap<>();
     }
 
     public static int obterAnoCorrente() {
@@ -69,33 +48,45 @@ public class Siguinha {
         return periodoCorrente;
     }
 
+    public String getInstituicaoDeEnsino() {
+        return instituicaoDeEnsino;
+    }
+
+    public void setInstituicaoDeEnsino(String instituicaoDeEnsino) {
+        this.instituicaoDeEnsino = instituicaoDeEnsino;
+    }
+
+    public void cadastrarAluno(long dre, String nome) {
+        Aluno aluno = this.alunoByDre.get(dre);
+        if (aluno == null) {
+            aluno = new Aluno(dre, nome);
+            this.alunoByDre.put(dre, aluno);
+        } else {
+            // já existia no cadastro, então apenas atualiza o nome
+            aluno.setNome(nome);
+        }
+    }
+
+    public Aluno obterAluno(long dre) {
+        return this.alunoByDre.get(dre);
+    }
+
+    public void abrirTurma(Disciplina disciplina, Professor professor) {
+        Turma turma = new Turma(disciplina, obterPeriodoCorrente());
+        // ToDo adicionar a nova turma numa coleção de turmas
+    }
+
+    public void inscreverAlunoEmTurma(long dre, Turma turma) {
+        Aluno aluno = this.alunoByDre.get(dre);
+        if (aluno == null) {
+            // ToDo lançaria exceção!
+            return;
+        }
+        turma.inscreverAluno(aluno);
+    }
+
     // apenas para escrever testes rápidos, por ora
-    public static void main(String[] args) throws IllegalAccessException {
-
-        // teste rápido de turma
-
-        Aluno a1 = new Aluno (1234, "joao");
-        Aluno a2 = new Aluno (12345, "joaozinho");
-        Aluno a3 = new Aluno (123456, "joaozao");
-        Aluno a4 = new Aluno (1234567, "joaozaoao");
-
-        /*cadastrarAluno(1234, "joao");
-        cadastrarAluno(123456, "joaozinho");
-        cadastrarAluno(1234567, "joaozao");*/
-
-        cadastrarAluno(a1);
-        cadastrarAluno(a2);
-        cadastrarAluno(a3);
-
-        Turma turminha = new Turma();
-
-        turminha.inscreverAluno(a1);
-        turminha.inscreverAluno(a2);
-        turminha.inscreverAluno(a3);
-
-        turminha.atribuirMediaFinal(123456, 10);
-
-        System.out.println(turminha.listarAlunos());
+    public static void main(String[] args) {
 
     }
 }

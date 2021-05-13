@@ -1,36 +1,34 @@
 public class Pessoa {
 
-    public final static int TAMANHO_MAXIMO_DO_NOME = 30;
-    // instance variables
+    private String nome;
 
-    protected String nome;
-    protected int anoDeNascimento;
+    private int anoNascimento;
 
-
-    // constructors
-
-
-    //methods
+    public Pessoa(String nome) {
+        this.nome = nome;
+    }
 
     public String getNome() {
-        return this.nome;
-    }
-
-
-    public int getAnoNascimento() {
-        return anoDeNascimento;
-    }
-
-    public int getIdade() {
-        return Siguinha.obterAnoCorrente() - anoDeNascimento;
+        return nome;
     }
 
     public void setNome(String nome) {
-        if (nome.length() > TAMANHO_MAXIMO_DO_NOME) {
-            // ToDo: lançar uma exceção!!!
-            System.out.println("Error: tamanho excede(30 caracteres).");
-            return;
-        }
         this.nome = nome;
+    }
+
+    public int getAnoNascimento() {
+        return anoNascimento;
+    }
+
+    public void setAnoNascimento(int anoNascimento) {
+        this.anoNascimento = anoNascimento;
+    }
+
+    public int getIdade() {
+        if (anoNascimento == 0) {
+            // ToDo lançaria uma exceção
+            return -1;
+        }
+        return Siguinha.obterAnoCorrente() - anoNascimento;
     }
 }

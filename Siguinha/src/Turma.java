@@ -3,96 +3,80 @@ import java.util.Map;
 
 public class Turma {
 
-    public Disciplina disciplina;
+    public static final float MEDIA_NAO_INFORMADA = -1;
 
-    public Periodo periodo;
+    private final Disciplina disciplina;
 
-    public Professor professor;
+    private final Periodo periodo;
 
-    private HashMap<Long, Aluno> alunos = new HashMap<Long, Aluno>();
+    private Professor professor;
 
-    private HashMap<Long, Float> notasFinais = new HashMap<Long, Float>();
+    private Map<Aluno, Float> mediaByAluno;
 
-
-    /**
-     * Adicionar aluno à turma
-     * @param aluno aluno previamente cadastrado em alunos do siga
-     * @throws IllegalArgumentException
-     */
-    public void inscreverAluno(Aluno aluno) throws IllegalArgumentException
-    {
-        if(aluno == null) throw new IllegalArgumentException("Erro: null aluno");
-
-        long dre = aluno.getDre();
-
-        // inscrever o aluno somente se ele existir no siguinha
-
-        // verificar se o aluno não está no siguinha
-        if(Siguinha.obterAluno(dre) == null)
-        {
-            System.out.println("Erro: aluno não cadastrado no siga previamente");
-            throw new IllegalArgumentException("Erro: aluno não cadastrado no siga previamente");
-        }
-        else // o aluno existe no siguinha
-        {
-            alunos.put(dre, aluno);
-        }
-
+    public Turma(Disciplina disciplina, Periodo periodo) {
+        this.disciplina = disciplina;
+        this.periodo = periodo;
+        this.mediaByAluno = new HashMap<>();
     }
 
-    /**
-     * Insere  a media final do aluno no HashMap notasFinais da instância do objeto turma.
-     * @param dre
-     * @param nota
-     * @throws IllegalAccessException caso o dre não esteja cadastrado na turma
-     */
-    public void atribuirMediaFinal(long dre,  float nota) throws IllegalAccessException
-    {
-        // verificar se  aluno está na lista de alunos da turma
-
-        if(alunos.containsKey(dre)) // o aluno está inscrito na turma
-        {
-            // atribuir ao seu DRE essa nota media final
-            notasFinais.put(dre, nota);
-;        }
-        else // o aluno não está inscrito na turma
-        {
-            // imprimir mensagem de erro
-            System.out.println("Error: aluno não cadastrado na turma");
-            throw new IllegalAccessException("aluno não cadastrado na turma");
-        }
+    public Disciplina getDisciplina() {
+        return disciplina;
     }
 
-
-    /**
-     * Retorna a media final do aluno(identificado pelo dre) que está no HashMap da instância do objeto.
-     * @param dre
-     * @return float media final do aluno
-     * @throws IllegalAccessException caso dre não esteja inscrito na turma
-     */
-    public float obterMediaFinal(long dre) throws IllegalAccessException
-    {
-        if(!alunos.containsKey(dre)) // o aluno não está inscrito na turma
-        {
-            System.out.println("Error: aluno não cadastrado na turma");
-            throw new IllegalAccessException("aluno não cadastrado na turma");
-        }
-
-        return this.notasFinais.get(dre);
+    public Periodo getPeriodo() {
+        return periodo;
     }
 
-    public String listarAlunos()
-    {
-        String output = "Lista de alunos:\n";
-        for (Map.Entry<Long, Aluno> parDreAluno : this.alunos.entrySet()) {
-            Long dre = parDreAluno.getKey();
-            Aluno aluno = parDreAluno.getValue();
-            output += "DRE: " + dre + " - NOME: " + aluno.nome + "\n";
-        }
-        return output;
+    public Professor getProfessor() {
+        return professor;
     }
 
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
 
+    void inscreverAluno(Aluno aluno) {
+        this.mediaByAluno.put(aluno, MEDIA_NAO_INFORMADA);
+    }
 
+    public void atribuirMediaFinal(Aluno aluno, float nota) {
+        if (this.mediaByAluno.get(aluno) == null) {
+            // o aluno não está inscrito na turma!
+            // ToDo lançaria exceção
+            return;
+        }
+        this.mediaByAluno.put(aluno, nota);
+    }
 
+    public float obterMediaFinal(Aluno aluno) {
+        Float media = this.mediaByAluno.get(aluno);
+        if (media == null) {
+            // ToDo lançaria exceção pois o aluno sequer pertence à turma
+        }
+        return media;
+    }
+
+    public String listarAlunos() {
+//        String resultado = "";
+//
+//        for (Aluno aluno : this.alunoByDre.values()) {
+//            long dre = aluno.getDre();
+//            resultado += "\n" + dre + " - " + aluno.getNome() +
+//                    " - " + this.mediaByDre.get(dre);
+//        }
+//        return resultado;
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Aluno, Float> chaveValor : this.mediaByAluno.entrySet()) {
+            Aluno aluno = chaveValor.getKey();
+            float media = chaveValor.getValue();
+            sb.append("\n")
+                    .append(aluno.getDre())
+                    .append(" - ")
+                    .append(aluno.getNome())
+                    .append(" - ")
+                    .append(media);
+        }
+        return sb.toString();
+    }
 }
