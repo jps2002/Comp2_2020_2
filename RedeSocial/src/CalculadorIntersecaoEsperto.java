@@ -4,6 +4,7 @@ import java.util.List;
 
 public class CalculadorIntersecaoEsperto implements CalculadorIntersecao {
 
+    // QUESTÃO 1 DO LAB 5
     @Override
     public List<Usuario> obterIntersecao(List<Usuario> lista1, List<Usuario> lista2) {
 

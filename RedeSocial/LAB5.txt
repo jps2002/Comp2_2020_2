@@ -8,7 +8,7 @@
 
 4) Escreva um teste de performance, onde seus usuários terão um número muito
    grande de amigos. Observe a diferença nos tempos dependendo do
-   tipo do CalculaodrIntersecao utilizado.
+   tipo do Calculaode Intersecao utilizado.
 
 
 ---------------------------------------

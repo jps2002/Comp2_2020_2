@@ -4,11 +4,14 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Armarios/Armarios.iml" filepath="$PROJECT_DIR$/Armarios/Armarios.iml" />
       <module fileurl="file://$PROJECT_DIR$/BrincandoComStrings/BrincandoComStrings.iml" filepath="$PROJECT_DIR$/BrincandoComStrings/BrincandoComStrings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CharMaisFrequente/CharMaisFrequente.iml" filepath="$PROJECT_DIR$/CharMaisFrequente/CharMaisFrequente.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Comp2_2020_2.iml" filepath="$PROJECT_DIR$/.idea/Comp2_2020_2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Fracao/Fracao.iml" filepath="$PROJECT_DIR$/Fracao/Fracao.iml" />
       <module fileurl="file://$PROJECT_DIR$/HelloWorld/HelloWorld.iml" filepath="$PROJECT_DIR$/HelloWorld/HelloWorld.iml" />
       <module fileurl="file://$PROJECT_DIR$/LojaVirtual/LojaVirtual.iml" filepath="$PROJECT_DIR$/LojaVirtual/LojaVirtual.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ParesDeSoma/ParesDeSoma.iml" filepath="$PROJECT_DIR$/ParesDeSoma/ParesDeSoma.iml" />
       <module fileurl="file://$PROJECT_DIR$/Primos/Primos.iml" filepath="$PROJECT_DIR$/Primos/Primos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RedeSocial/RedeSocial.iml" filepath="$PROJECT_DIR$/RedeSocial/RedeSocial.iml" />
       <module fileurl="file://$PROJECT_DIR$/ReinoAnimal/ReinoAnimal.iml" filepath="$PROJECT_DIR$/ReinoAnimal/ReinoAnimal.iml" />
       <module fileurl="file://$PROJECT_DIR$/Siguinha/Siguinha.iml" filepath="$PROJECT_DIR$/Siguinha/Siguinha.iml" />
     </modules>
