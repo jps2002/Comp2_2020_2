@@ -1,17 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Usuario implements Comparable<Usuario> {
 
-    private final int id;
+    private int id;
 
-    private List<Usuario> amigos = new ArrayList<>();
+    private List<Usuario> amigos;
 
     private CalculadorIntersecao calculadorIntersecao;
 
-    public Usuario(int id, CalculadorIntersecao calculador) {
-        // instancia um calculador de interseção
+    public Usuario(int id) {
         this.id = id;
+        this.calculadorIntersecao = new CalculadorIntersecaoEsperto();  // composição
+        this.amigos = new ArrayList<>();
+    }
+
+    public void setCalculadorIntersecao(CalculadorIntersecao calculador) {
         this.calculadorIntersecao = calculador;
     }
 
@@ -19,13 +24,12 @@ public class Usuario implements Comparable<Usuario> {
         return id;
     }
 
-    public void addAmigo(Usuario usuario)
-    {
-        amigos.add(usuario);
-    }
-
     public List<Usuario> getAmigos() {
         return this.amigos;
+    }
+
+    public void adicionarAmigo(Usuario usuario2) {
+        amigos.add(usuario2);
     }
 
     /**
@@ -44,22 +48,16 @@ public class Usuario implements Comparable<Usuario> {
         return this.id - o.id;
     }
 
-    public static void main(String[] args) {
-        CalculadorIntersecaoIngenuo ingenuo = new CalculadorIntersecaoIngenuo();
-        Usuario joao = new Usuario(001, ingenuo);
-        Usuario joana = new Usuario(002, ingenuo);
-        Usuario jose = new Usuario(003, ingenuo);
-        Usuario josefa = new Usuario(004, ingenuo);
-        Usuario mario = new Usuario(005, ingenuo);
-        Usuario maria = new Usuario(006, ingenuo);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id == usuario.id;
+    }
 
-        joao.addAmigo(jose);
-        joao.addAmigo(mario);
-        joana.addAmigo(josefa);
-        joana.addAmigo(maria);
-        joana.addAmigo(jose);
-
-        System.out.println(joao.amigos);
-        System.out.println(joao.obterQuantidadeDeAmigosEmComum(joana));
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

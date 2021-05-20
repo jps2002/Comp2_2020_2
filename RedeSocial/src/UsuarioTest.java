@@ -1,107 +1,102 @@
-import static java.lang.System.currentTimeMillis;
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.*;
+import org.junit.Before;
+import org.junit.Test;
 
-class UsuarioTest {
+import java.util.*;
 
-    CalculadorIntersecao ingenuo = new CalculadorIntersecaoIngenuo();
-    CalculadorIntersecao rapidinho= new CalculadorIntersecaoEsperto();
-    CalculadorIntersecao medio= new CalculadorIntersecaoViaBuscaBinaria();
+import static org.junit.Assert.*;
 
+public class UsuarioTest {
 
-    Usuario joao;
-    Usuario joana;
-    Usuario jose;
-    Usuario josefa;
-    Usuario mario;
-    Usuario maria;
+    private CalculadorIntersecao calcIngenuo;
+    private CalculadorIntersecao calcViaBuscaBinaria;
+    private CalculadorIntersecao calcEsperto;
 
-    @BeforeEach
-    void setUp() {
+    private Random random = new Random();
 
-         joao = new Usuario(001, ingenuo);
-         joana = new Usuario(002, rapidinho);
-         jose = new Usuario(003, ingenuo);
-         josefa = new Usuario(004, medio);
-         mario = new Usuario(005, ingenuo);
-         maria = new Usuario(006, medio);
-
-        joao.addAmigo(jose);
-        joao.addAmigo(mario);
-        joao.addAmigo(jose);
-        joao.addAmigo(mario);
-
-        joana.addAmigo(josefa);
-        joana.addAmigo(maria);
-        joana.addAmigo(jose);
-        joana.addAmigo(mario);
-
-        maria.addAmigo(mario);
-
-        josefa.addAmigo(joao);
-        josefa.addAmigo(jose);
-        josefa.addAmigo(mario);
-        josefa.addAmigo(maria);
-        josefa.addAmigo(joana);
+    @Before
+    public void setUp() {
+        this.calcIngenuo = new CalculadorIntersecaoIngenuo();
+        this.calcViaBuscaBinaria = new CalculadorIntersecaoViaBuscaBinaria();
+        this.calcEsperto = new CalculadorIntersecaoEsperto();
     }
 
     @Test
-    void getIdTest() {
-        assertEquals(001, joao.getId());
-        assertFalse(joao.getId() == 002);
-    }
+    public void testarIntersecao() {
+        Usuario usuario1 = new Usuario(1);
+        Usuario usuario2 = new Usuario(1);
 
-    @org.junit.jupiter.api.Test
-    void getAmigosTest() {
+        usuario1.setCalculadorIntersecao(new CalculadorIntersecaoEsperto());
 
+        Usuario amigo1 = new Usuario(101);
+        Usuario amigo2 = new Usuario(102);
+        Usuario amigo3 = new Usuario(103);
+        Usuario amigo4 = new Usuario(104);
+
+        usuario1.adicionarAmigo(amigo1);
+        usuario1.adicionarAmigo(amigo2);
+        usuario1.adicionarAmigo(amigo3);
+
+        usuario2.adicionarAmigo(amigo1);
+        usuario2.adicionarAmigo(amigo3);
+        usuario2.adicionarAmigo(amigo4);
+
+        int amigosEmComum = usuario1.obterQuantidadeDeAmigosEmComum(usuario2);
+        assertEquals(2, amigosEmComum);
     }
 
     @Test
-    // QUESTÃO 2 e 3 DO LAB5
-    void obterQuantidadeDeAmigosTest() {
+    public void testarPerformance() {
 
-        assertEquals(2,joao.obterQuantidadeDeAmigosEmComum(joana));
-        assertEquals(3,josefa.obterQuantidadeDeAmigosEmComum(joana));
-        assertFalse(maria.obterQuantidadeDeAmigosEmComum(joao) == 2);
+        final int TAMANHO = 1_600_000;
 
-    }
-    @Test
-    void obterQuantidadeDeAmigosComTempoTest()
-    {
-        Usuario usuarioNovo;
-        int temp = 007;
-        int qtdNovosAmigos = 100;
-        for(int i = 0; i < qtdNovosAmigos; i++)
-        {
-            usuarioNovo= new Usuario(temp, rapidinho);
-            joao.addAmigo(usuarioNovo);
-            joana.addAmigo(usuarioNovo);
+        List<Usuario> amigos1 = new ArrayList<>();
+        List<Usuario> amigos2 = new ArrayList<>();
+
+        Set<Integer> idsUtilizados1 = new HashSet<>();
+        Set<Integer> idsUtilizados2 = new HashSet<>();
+
+        for (int i = 1; i <= TAMANHO; i++) {
+            final int id1 = random.nextInt(10 * TAMANHO) + 1;
+            if (!idsUtilizados1.contains(id1)) {
+                Usuario amigo1 = new Usuario(id1);
+                amigos1.add(amigo1);
+                idsUtilizados1.add(id1);
+            }
+            final int id2 = random.nextInt(10 * TAMANHO) + 1;
+            if (!idsUtilizados2.contains(id2)) {
+                Usuario amigo2 = new Usuario(id2);
+                amigos2.add(amigo2);
+                idsUtilizados2.add(id2);
+            }
         }
 
-        long inicioTempoIngenuo = currentTimeMillis();
-        System.out.println("Amigos de joao em comum com joana: " + joao.obterQuantidadeDeAmigosEmComum(joana));
-        long fimTempoIngenuo = currentTimeMillis();
-        long tempoPassadoIngenuo = fimTempoIngenuo - inicioTempoIngenuo;
-        System.out.println("Tempo de execução do ingenuo em milissegundos: " + tempoPassadoIngenuo);
+        Usuario usuario1 = new Usuario(-1);
+        Usuario usuario2 = new Usuario(-2);
+        for (Usuario amigo : amigos1) {
+            usuario1.adicionarAmigo(amigo);
+        }
+        for (Usuario amigo : amigos2) {
+            usuario2.adicionarAmigo(amigo);
+        }
 
-        long inicioTempoRapido = currentTimeMillis();
-        System.out.println("Amigos de joana em comum com joao: " + joana.obterQuantidadeDeAmigosEmComum(joao));
-        long fimTempoRapido = currentTimeMillis();
-        long tempoPassadoRapido = fimTempoRapido - inicioTempoRapido;
-        System.out.println("Tempo de execução do rapido em milissegundos: " + tempoPassadoIngenuo);
-
+//        int resultado = rodarTesteDePerformance(calcIngenuo, amigos1, amigos2);
 
 
-
-
+        rodarTesteDePerformance(calcViaBuscaBinaria, usuario1, usuario2);
+        rodarTesteDePerformance(calcEsperto, usuario1, usuario2);
 
     }
 
-    @Test
-    // questão 4
-    void questao4() {
+    private void rodarTesteDePerformance(CalculadorIntersecao calculador,
+                                        Usuario usuario1, Usuario usuario2) {
 
+        usuario1.setCalculadorIntersecao(calculador);
+
+        long inicio = System.currentTimeMillis();
+        int resultado = usuario1.obterQuantidadeDeAmigosEmComum(usuario2);
+        long duracao = System.currentTimeMillis() - inicio;
+        System.out.println(String.format(
+                "%s --> interseção: %d duração: %.3fs",
+                calculador.getClass().getName(), resultado, duracao / 1000f));
     }
-
 }
