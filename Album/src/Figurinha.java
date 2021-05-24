@@ -10,6 +10,11 @@ public class Figurinha implements Colecionavel {
         this.posicao = posicao;
     }
 
+    //public Figurinha(int posicao)
+    //{
+        //this.posicao = posicao;
+    //}
+
     private Image obterImagem(String url) {
         // ToDo baixaria da Internet...
         return null;

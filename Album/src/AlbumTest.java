@@ -13,7 +13,9 @@ public class AlbumTest {
 
     @Before  // roda antes de cada teste
     public void setUp() {
-        this.repositorioFigurinhas = new Repositorio("album_copa2014", TAMANHO_DO_ALBUM);
+
+        Figurinha referencia = new Figurinha(0, null);
+        this.repositorioFigurinhas = new Repositorio("album_copa2014", TAMANHO_DO_ALBUM, referencia);
         this.albumFigurinhas = new Album(repositorioFigurinhas, ITENS_POR_PACOTE);
     }
 

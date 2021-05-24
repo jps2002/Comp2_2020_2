@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 /**
  * Representa uma fração de forma explícita, guardando numerador e denominador inteiros.
  * Frações equivalentes (matematicamente) devem ser consideradas equals().

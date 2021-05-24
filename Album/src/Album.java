@@ -1,8 +1,6 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class Album {
 
@@ -64,15 +62,37 @@ public class Album {
     }
 
     public Figurinha getItemColado(int posicao) {
-        return null;  // ToDo IMPLEMENT ME!!!
+        return figurinhasColadas.get(posicao);
     }
 
     public boolean possuiItemColado(int posicao) {
-        return false;  // ToDo IMPLEMENT ME!!!
+        // para cada figurinha colada:
+        //for( Figurinha figurinha : figurinhasColadas)
+        //{
+            // se a posicao da figurinha for igual a desejada, retorna true
+            //if(figurinha.getPosicao() == posicao)
+            //{
+                //return true;
+            //}
+       // }
+        // se não há figurinha colada com essa posicao, retorna false
+        //return false;
+        for (int i = 1; i <= quantFigurinhasColadas; i++)
+        {
+            if(figurinhasColadas.get(i).getPosicao() == posicao)
+            {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     public boolean possuiItemRepetido(int posicao) {
-        return false;  // ToDo IMPLEMENT ME!!!
+        int cont = contRepetidasByPosicao.getOrDefault(posicao, 0);
+        if (cont> 0) return true;
+        return false;
     }
 
     public int getTamanho() {
@@ -80,15 +100,6 @@ public class Album {
     }
 
     public int getQuantItensColados() {
-//        int contador = 0;
-//        for (Figurinha fig : this.figurinhasColadas) {
-//            if (fig != null) {
-//                contador++;
-//            }
-//        }
-//        return contador;
-
-        // melhor jeito: atributo!
         return this.quantFigurinhasColadas;
     }
 
@@ -97,7 +108,24 @@ public class Album {
     }
 
     public void autoCompletar() {
-        // ToDo IMPLEMENT ME!!!
+        int tamanhoRepositorio = getTamanho();
+
+        // descobrir minimo de figurinhas coladas para liberar autoCompletar
+        int min = (int) Math.ceil(tamanhoRepositorio * PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR / 100.0);
+
+        // se atender aos critérios
+        if(this.quantFigurinhasColadas >= min)
+        {
+                for(int i = 1; i <= tamanhoRepositorio; i++)
+                {
+                    if(!possuiItemColado(i))
+                    {
+                        Figurinha novaFigurinha = new Figurinha(i, null);
+                        this.figurinhasColadas.set(i, novaFigurinha);
+                    }
+                }
+        }
+
     }
 
     private Image getImagem(int posicao) {
