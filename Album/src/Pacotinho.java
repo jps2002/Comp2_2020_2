@@ -1,52 +1,51 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-public class Pacotinho {
 
-    private Figurinha[] figurinhas;
+public class Pacotinho<T extends Colecionavel> {
 
-    Random rand  = new Random();
+    private Random random;
+    private Colecionavel[] itens;
 
-    public Pacotinho(Repositorio repo, int[] posicoesDesejadas) {
+    public Pacotinho(Repositorio<T> repo, int[] posicoesDesejadas) {
 
-        // criar array com tamanho de posicoesDesejadas
-        figurinhas = new Figurinha[posicoesDesejadas.length];
+        this.itens = new Colecionavel[posicoesDesejadas == null ? 0 :
+                posicoesDesejadas.length];
 
-        // para cada item em posicoesDesejadas adicionar a figurinhas
-       for(int i = 0; i < posicoesDesejadas.length; i++)
-       {
-           Figurinha figurinhaTemp = new Figurinha(posicoesDesejadas[i] , null);
-           figurinhas[i] = figurinhaTemp;
-       }
-
-    }
-
-    /**
-     * Produz um pacotinho com quantFigurinhas sorteadas aleatoriamente
-     * dentre aqueles presentes no repositório informado.
-     *
-     * @param repo o repositório desejado
-     * @param quantFigurinhas a quantidade de figurinhas a constar no pacotinho
-     */
-    public Pacotinho(Repositorio repo, int quantFigurinhas) {
-
-        int tamanhoRepositorio = repo.getTotalFigurinhas();
-
-        figurinhas = new Figurinha[quantFigurinhas];
-
-        for(int i = 0; i < quantFigurinhas; i++)
-        {
-            int posicaoAleatoria = rand.nextInt(tamanhoRepositorio);
-
-            Figurinha novaFigurinha = new Figurinha(posicaoAleatoria, null);
-
-            figurinhas[i] = novaFigurinha;
-
+        if (posicoesDesejadas != null) {
+            preencherPacotinho(repo, posicoesDesejadas);
         }
     }
 
-    public Figurinha[] getFigurinhas() {
+    /**
+     * Produz um pacotinho com quantItens itens sorteados aleatoriamente
+     * dentre aqueles presentes no repositório informado.
+     *
+     * @param repo o repositório desejado
+     * @param quantItens a quantidade de itens a constar no pacotinho
+     */
+    public Pacotinho(Repositorio<T> repo, int quantItens) {
+        this.itens = new Colecionavel[quantItens];
 
-        return figurinhas;
+        this.random = new Random();
+
+        int[] posicoesAleatorias = new int[quantItens];
+        for (int i = 0; i < quantItens; i++) {
+            int posicaoSorteada = random.nextInt(repo.getTotalFigurinhas()) + 1;
+            posicoesAleatorias[i] = posicaoSorteada;
+        }
+
+        preencherPacotinho(repo, posicoesAleatorias);
+    }
+
+    private void preencherPacotinho(Repositorio<T> repo, int[] posicoesDesejadas) {
+        for (int i = 0; i < posicoesDesejadas.length; i++) {
+            int posicao = posicoesDesejadas[i];
+            Colecionavel item = repo.getItem(posicao);
+            this.itens[i] = item;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public T[] getItens() {
+        return (T[]) this.itens;
     }
 }

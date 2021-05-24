@@ -5,20 +5,29 @@ public class Repositorio<T extends Colecionavel> {
 
     private static final String PREFIXO_URL_IMAGENS = "http://www.nossoalbum.com.br/imagens/";
 
-    private final List<T> todasAsFigurinhas;
+    private List<T> todosOsItens;
+
+    private int quantFigurinhas;
 
     @SuppressWarnings("unchecked")
-    public Repositorio(String sufixoUrlImagens, int quantFigurinhas, T objetoReferencia) {
-        todasAsFigurinhas = new ArrayList<>(quantFigurinhas);
-        //todasAsFigurinhas.add(null);
-        for (int i = 1; i <= quantFigurinhas; i++) {
-            T fig = (T) ColecionavelFactory.create(
-                    objetoReferencia.getClass().getName(), i, PREFIXO_URL_IMAGENS + sufixoUrlImagens);
-            todasAsFigurinhas.add(fig);
+    public Repositorio(String sufixoUrlImagens, int quantItens, String tipoDeColecionavel) {
+        this.quantFigurinhas = quantItens;
+
+        todosOsItens = new ArrayList<>();
+        todosOsItens.add(null);  // ocupando a posição 0 com um null
+        for (int i = 1; i <= quantItens; i++) {
+
+            T item = (T) ColecionavelFactory.criarColecionavel(
+                    tipoDeColecionavel, i, PREFIXO_URL_IMAGENS + sufixoUrlImagens);
+            todosOsItens.add(item);
         }
     }
 
     public int getTotalFigurinhas() {
-        return this.todasAsFigurinhas.size();
+        return this.quantFigurinhas;
+    }
+
+    public T getItem(int pos) {
+        return this.todosOsItens.get(pos);
     }
 }
