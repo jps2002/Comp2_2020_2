@@ -10,7 +10,7 @@ import java.util.*;
  *  Os tuítes podem conter, além da mensagem de texto, um anexo qualquer.
  *  Há um método para retornar, a qualquer momento, qual a hashtag mais usada em toda a história do sistema.
  */
-public class TuiterLite {
+public class TuiterLite<T> {
 
     public static int TAMANHO_MAXIMO_TUITES = 120;
 
@@ -19,7 +19,7 @@ public class TuiterLite {
     private HashMap<String, Usuario> usuarios; // o conjunto de usuários identificados por seu email
     private ArrayList tuites; // o conjunto de tuites feitos pelos os usuários
     private HashMap<String, Integer> hashtags; // o conjunto de hashtags usadas identificadas por seu nome(ex: #LAB7) e qual sua frequência
-
+    T tipoAnexo;
 
     // construtor
 
@@ -62,7 +62,11 @@ public class TuiterLite {
      *
      * PS.: Se o texto exceder o limite pré-definido, ou o usuário não estiver cadastrado, return null
      */
-    public Tuite tuitarAlgo(Usuario usuario, String texto) {
+    public Tuite tuitarAlgo(Usuario usuario, String texto) throws UsuarioDesconhecidoException, TamanhoMaximoExcedidoException {
+
+        // se o usuário ou o texto forem nulos, lançar IllegalArgumentException
+        if(usuario == null || texto == null)
+            throw new IllegalArgumentException("Usuário ou texto nulos.");
 
         // se o texto estiver no tamanho certo pré-definido:
         if(texto.length() <= TAMANHO_MAXIMO_TUITES)
@@ -82,9 +86,19 @@ public class TuiterLite {
                 return novoTuite;
 
             }
+            else // se o usuário não estiver em usuarios
+            {
+                throw new UsuarioDesconhecidoException(); // lançar exceção
+            }
         }
+        else // se o texto não estiver no tamanho certo pre-definido
+        {
+            throw new TamanhoMaximoExcedidoException(texto); // lançar exceção
+        }
+
+
         // se o texto está fora do limite ou o usuário não foi cadastrado previamente, retornar null
-        return null;
+        //return null;
     }
 
     /**

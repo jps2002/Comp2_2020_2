@@ -38,15 +38,15 @@ public class TuiterLiteTest {
                 usuario, tuite.getAutor());
     }
 
-//    @Test
-//    public void testeTuiteDeUsuarioDesconhecido() throws TamanhoMaximoExcedidoException {
-//        try {
-//            tuiterLite.tuitarAlgo(new Usuario("Usuário Desconhedido", "unknown@void.com"), "Testando");
-//            fail("Uma UsuarioDesconhecidoException deve ser lançada caso o autor não seja usuário cadastrado");
-//        } catch (UsuarioDesconhecidoException e) {
-//            // ok
-//        }
-//    }
+    @Test
+    public void testeTuiteDeUsuarioDesconhecido() throws TamanhoMaximoExcedidoException {
+        try {
+            tuiterLite.tuitarAlgo(new Usuario("Usuário Desconhedido", "unknown@void.com"), "Testando");
+            fail("Uma UsuarioDesconhecidoException deve ser lançada caso o autor não seja usuário cadastrado");
+        } catch (UsuarioDesconhecidoException e) {
+            System.out.println("Usage error: usuário não cadastrado.");
+        }
+    }
 
     @Test
     public void testeTamanhoTuite() throws UsuarioDesconhecidoException {
@@ -61,16 +61,16 @@ public class TuiterLiteTest {
             }
             String texto = sb.toString();
 
-//            try {
-//                tuiterLite.tuitarAlgo(usuario, texto);
-//                fail("Um tuite maior do que o tamanho máximo deve lançar uma TamanhoMaximoExcedidoException");
-//
-//            } catch (TamanhoMaximoExcedidoException e) {
-//                assertEquals("A exceção deve comunicar corretamente o tamanho do texto que se tentou tuitar",
-//                        tamanho, e.getTamanhoTexto());
-//            }
-            assertNull("Não deve ser possível tuitar algocom otamanho maior do que " +
-                    "o máximo permitido", tuiterLite.tuitarAlgo(usuario, texto));
+            try {
+                tuiterLite.tuitarAlgo(usuario, texto);
+               fail("Um tuite maior do que o tamanho máximo deve lançar uma TamanhoMaximoExcedidoException");
+
+           } catch (TamanhoMaximoExcedidoException e) {
+               assertEquals("A exceção deve comunicar corretamente o tamanho do texto que se tentou tuitar",
+                       tamanho, e.getTamanhoTexto());
+           }
+            /*assertNull("Não deve ser possível tuitar algocom otamanho maior do que " +
+                    "o máximo permitido", tuiterLite.tuitarAlgo(usuario, texto));*/
         }
     }
 
@@ -93,26 +93,26 @@ public class TuiterLiteTest {
                 objeto, tuite.getAnexo());
     }
 
-//    @Test
-//    public void testeApenasUmTipoPermitidoComoAnexo()
-//            throws TamanhoMaximoExcedidoException, UsuarioDesconhecidoException, UsuarioJaExisteException {
-//
-//        // vamos criar um outro TuiterLite aqui, especificando que ele deverá se relacionar com o tipo Image
-//        TuiterLite<Image> tuiterLiteQueAceitaApenasImagensComoAnexo = new TuiterLite<>();
-//        tuiterLiteQueAceitaApenasImagensComoAnexo.cadastrarUsuario(usuario.getNome(), usuario.getEmail());
-//        Tuite<Image> tuite = tuiterLiteQueAceitaApenasImagensComoAnexo.tuitarAlgo(usuario, "Testando");
-//
-//        // agora vamos anexar
-//        tuite.anexarAlgo(usuario.getFoto());
-//        assertNotNull(tuite.getAnexo());
-//
-//        // Deixe as linhas seguintes comentadas, mas verifique o comportamento desejado indicado abaixo
-//        // (note que estamos tentando anexar outros tipos de objetos que não são Image).
-//
-////        tuite.anexarAlgo(usuario);       // essa linha, se fosse descomentada, daria erro de compilação
-////        tuite.anexarAlgo("1234");        // essa linha, se fosse descomentada, daria erro de compilação
-////        tuite.anexarAlgo(new Object());  // essa linha, se fosse descomentada, daria erro de compilação
-//    }
+    @Test
+    public void testeApenasUmTipoPermitidoComoAnexo()
+            throws TamanhoMaximoExcedidoException, UsuarioDesconhecidoException, UsuarioJaExisteException {
+
+        // vamos criar um outro TuiterLite aqui, especificando que ele deverá se relacionar com o tipo Image
+        TuiterLite<Image> tuiterLiteQueAceitaApenasImagensComoAnexo = new TuiterLite<>();
+        tuiterLiteQueAceitaApenasImagensComoAnexo.cadastrarUsuario(usuario.getNome(), usuario.getEmail());
+        Tuite<Image> tuite = tuiterLiteQueAceitaApenasImagensComoAnexo.tuitarAlgo(usuario, "Testando");
+
+        // agora vamos anexar
+        tuite.anexarAlgo(usuario.getFoto());
+       assertNotNull(tuite.getAnexo());
+
+        // Deixe as linhas seguintes comentadas, mas verifique o comportamento desejado indicado abaixo
+        // (note que estamos tentando anexar outros tipos de objetos que não são Image).
+
+        //tuite.anexarAlgo(usuario);       // essa linha, se fosse descomentada, daria erro de compilação
+        //tuite.anexarAlgo("1234");        // essa linha, se fosse descomentada, daria erro de compilação
+        //.anexarAlgo(new Object());  // essa linha, se fosse descomentada, daria erro de compilação
+   }
 
     @Test
     public void testeHashtags()

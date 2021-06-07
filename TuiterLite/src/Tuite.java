@@ -4,12 +4,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Tuite {
+public class Tuite<T> {
 
     private final Usuario autor;
     private final String texto;
     private final Set<String> hashtags;
-    private Object anexo;
+    private T anexo;
 
     public Tuite(Usuario autor, String texto, Set<String> hashtags) {
         this.autor = autor;
@@ -17,7 +17,7 @@ public class Tuite {
         this.hashtags = hashtags;
     }
 
-    public void anexarAlgo(Object anexo) {
+    public void anexarAlgo(T anexo) {
         this.anexo = anexo;
     }
 
@@ -43,7 +43,7 @@ public class Tuite {
         return hashtagsEncontradas;
     }
 
-    public Object getAnexo() {
+    public T getAnexo() {
         return this.anexo;
     }
 
